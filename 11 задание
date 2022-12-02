@@ -1,0 +1,25 @@
+-- Задача 1
+SELECT pilot_id, name
+FROM Пилоты
+ JOIN Рейсы ON Пилоты.pilot_id = Рейсы.second_pilot_id
+WHERE flight_dt >= '2022-08-01' AND flight_dt <= '2022-08-31'
+GROUP BY destination, pilot_id
+HAVING destination = 'Шереметьево' AND COUNT(flight_dt) = 3;
+
+
+-- Задача 2
+SELECT DISTINCR pilot_id, name
+FROM Пилоты
+    JOIN Рейсы ON Пилоты.pilot_id = Рейсы.first_pilot_id OR Пилоты.pilot_id = Рейсы.second_pilot_id
+WHERE age > 45 AND quantity > 30;
+
+
+-- Задача 3
+SELECT pilot_id, name, count(flight_dt) as flights
+FROM Пилоты
+    JOIN Рейсы ON Пилоты.pilot_id = Рейсы.first_pilot_id
+    JOIN Самолеты С on Рейсы.plane_id = С.plane_id
+WHERE cargo_flg = 1
+GROUP BY pilot_id
+ORDER BY count(flight_dt) DESC
+LIMIT 10
